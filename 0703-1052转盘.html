@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            background: #ccc;
+        }
+        button{
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            padding: 10px 20px;
+            background: red;
+            font-size: 24px;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800px" height="600px"></canvas>
+<button id="btn">开始</button>
+
+<script>
+    var canvas = document.getElementById('canvas');
+    var btn=document.getElementById('btn');
+    var cObj = canvas.getContext('2d');
+    btn.onclick=function () {
+        location.reload();
+    }
+    cObj.translate(350, 250);
+    var msg = [
+        {
+            color: '#CC7745',
+            text: 'HTML5'
+        },
+        {
+            color: '#6523CC',
+            text: 'CSS3'
+        },
+        {
+            color: '#CC457E',
+            text: 'jQuery.js'
+        },
+        {
+            color: '#46CCB8',
+            text: 'javascript'
+        },
+        {
+            color: '#73CC12',
+            text: 'Vue.js'
+        },
+        {
+            color: '#C52DCC',
+            text: 'Node.js'
+        },
+        {
+            color: '#A7CCB3',
+            text: 'Angular.js'
+        },
+        {
+            color: '#32CC9E',
+            text: 'React.js'
+        }
+    ];
+    var num = Math.PI / 180;
+    var angle=0;
+    var step=10+10*Math.random();
+    var t=setInterval(function () {
+        if(step<=0.3){
+            clearInterval(t);
+            var num1=Math.ceil(angle/45);
+            //alert(msg[num1].text);
+            var content=msg[msg.length-num1].text;
+            cObj.font='bold 30px 微软雅黑';
+            cObj.textAlign='center';
+            cObj.fillStyle='red';
+//            cObj.strokeStyle='red'
+            cObj.fillText(content,0,0)
+        }else{
+            if (angle>=360){
+                angle=0;
+            }
+            step*=0.95;
+            angle+=step;
+            cObj.clearRect(-400,-400,800,800);
+            cObj.beginPath();
+            cObj.moveTo(350,0);
+            cObj.lineTo(250,0);
+            cObj.lineWidth=8;
+            cObj.stroke();
+            cObj.lineWidth=1;
+            cObj.save();
+            cObj.rotate(angle*num);
+            //扇形
+            for (var i = 1; i <= 8; i++) {
+                cObj.beginPath();
+                cObj.moveTo(0, 0);
+                cObj.fillStyle = msg[i-1].color;
+                cObj.arc(0, 0, 200, (i - 1) * 45 * num, i * 45 * num);
+                cObj.closePath();
+                cObj.stroke();
+                cObj.fill();
+            }
+            //白底圆盘
+            cObj.beginPath();
+            cObj.fillStyle = '#fff';
+            cObj.arc(0, 0, 80, 0, 2 * Math.PI);
+            cObj.fill();
+            //添加文字
+            for (var i = 0; i < 8; i++) {
+                cObj.save();
+                cObj.beginPath();
+                cObj.rotate((i*45+25)*num);
+                cObj.fillStyle='#222';
+                cObj.font='18px 微软雅黑';
+                cObj.fillText(msg[i].text,100,0);
+                cObj.restore();
+            }
+            cObj.restore()
+        }
+    },100)
+
+</script>
+</body>
+</html>

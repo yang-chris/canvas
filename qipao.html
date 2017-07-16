@@ -1,0 +1,135 @@
+<!doctype html>
+02.
+<html>
+03.
+<head>
+    04.
+    <title>HTML5标签Canvas画布练习轮子滚动</title>
+    05.
+    <meta charset="UTF-8" />
+    06.
+</head>
+07.
+<body onload="init();">
+08.
+<h1>Canvas 标签实现一个球限定在盒子内随机移动效果</h1>
+09.
+<canvas id="myCanvas" width="400" height="400">
+    10.
+    对不起，你的浏览器不支持Canvas标签！
+    11.
+</canvas>
+12.
+<script type="text/javascript" language="javascript">
+    13.
+    //x和y为球的圆心坐标
+    14.
+    //speed:表示球移动的速度 单位为毫秒
+    15.
+    //radius:为球的半径
+    16.
+    //width和height为盒子大小
+    17.
+    var w, x,y, speed = 500, radius = 50, width = 400, height = 400;
+    18.
+
+    19.
+    //初始化
+    20.
+    function init() {
+        21.
+        drawCanvas();
+        22.
+        setInterval(moveWheel, speed);
+        23.
+    }
+    24.
+
+    25.
+    //画盒子
+    26.
+    function drawCanvas() {
+        27.
+//创建Canvas对象
+        28.
+        var c = document.getElementById("myCanvas");
+        29.
+        var ctx = c.getContext("2d");
+        30.
+//在画布面板上面创建一个矩形
+        31.
+        ctx.fillStyle = "#000000"; //设置填充颜色值
+        32.
+        ctx.fillRect(0, 0, width, height);
+        33.
+        ctx.fill();
+        34.
+
+        35.
+        w = ctx;
+        36.
+    }
+    37.
+
+    38.
+    //随机移动球
+    39.
+    function moveWheel() {
+        40.
+        clearCanvas();
+        41.
+        drawCanvas();
+        42.
+
+        43.
+//获得随机坐标
+        44.
+        x = getRandomNum();
+        45.
+        y = getRandomNum();
+        46.
+
+        47.
+//在画布上渲染一个圆形
+        48.
+        w.fillStyle = '#FFFFFF';
+        49.
+        w.beginPath();
+        50.
+        w.arc(x, y, radius, 0, Math.PI * 2, true);
+        51.
+        w.closePath();
+        52.
+        w.fill();
+        53.
+    }
+    54.
+
+    55.
+    //清除画布
+    56.
+    function clearCanvas() {
+        57.
+        if (typeof w != "undefined") {
+            58.
+            w.clearRect(0, 0, width, height);
+            59.
+        }
+        60.
+    }
+    61.
+
+    62.
+    //获取随机数
+    63.
+    function getRandomNum() {
+        64.
+        return Math.random() * (width - radius * 2) + radius;
+        65.
+    }
+    66.
+</script>
+67.
+</body>
+68.
+</html>

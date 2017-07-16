@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            background: #ccc;
+        }
+
+        button {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            padding: 10px 20px;
+            background: red;
+            font-size: 24px;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800px" height="600px"></canvas>
+<img src="images/1.jpg" hidden alt="">
+
+<script>
+    var canvas = document.getElementById('canvas');
+    var cObj = canvas.getContext('2d');
+    var img = document.getElementsByTagName('img')[0];
+    /*
+     vx += (targetX – sprite.x) * spring;//spring为弹性系数
+     vy += (targetY – sprite.y) * spring;
+     sprite.x += (vx *= friction);//friction为摩擦力
+     sprite.y += (vy *= friction);
+     */
+    var vx = 0, vy = 0;
+    var targetX = 100, targetY = 200;
+    var startX = 100, startY = -100;
+    var changeX = startX, changeY = startY;
+    var spring = 0.8;
+    var friction = 0.6;
+    setInterval(function () {
+        cObj.clearRect(0, 0, 800, 600);
+        vx += (targetX - changeX) * spring;
+        vy += (targetY - changeY) * spring;
+        changeX += (vx *= friction);
+        changeY+=(vy*=friction);
+        cObj.beginPath();
+        cObj.lineWidth=5;
+        cObj.moveTo(startX,startY);
+        cObj.lineTo(changeX,changeY)
+        cObj.stroke();
+        cObj.drawImage(img,changeX-100,changeY,200,200)
+    },60)
+
+
+</script>
+</body>
+</html>

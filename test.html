@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        canvas {
+            background: #eee;
+        }
+    </style>
+    <title>noTitle</title>
+    <meta charset="">
+    <link rel="stylesheet" href="">
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById("canvas");
+            var cobj = canvas.getContext("2d");
+            var btn = document.getElementById("btn");
+            var num = Math.PI / 180;
+            cobj.translate(250, 250);
+            var colorArr = ["#24a274", "#2a70a6", "#6d56c3", "#b23880", "#7a9a36", "#b48548", "#397839", "#89489c"];
+            var textArr = ["js", "html", "css", "php", "mysql", "html5", "css3", "hdphp"];
+            var angle = 0;
+            btn.onclick = function () {
+                location.reload();
+            }
+            var step = 10 + 10 * Math.random();
+            var t = setInterval(function () {
+                if (step <= 0.3) {
+                    clearInterval(t);
+                    var num1 = Math.ceil(angle / 45);
+                    var con = textArr[textArr.length - num1];
+                    cobj.font = "18px 微软雅黑";
+                    cobj.textAlign = "center";
+                    cobj.fillText(con, 0, 0);
+                } else {
+                    if (angle >= 360) {
+                        angle = 0;
+                    }
+                    step *= 0.95;
+                    angle += step;
+                    cobj.clearRect(-200, -200, 500, 500);
+                    cobj.beginPath();
+                    cobj.lineWidth = 5;
+                    cobj.moveTo(135, 0);
+                    cobj.lineTo(150, 0);
+                    cobj.stroke();
+                    cobj.lineWidth = 2;
+                    cobj.save();
+                    cobj.rotate(angle * num);
+                    //绘制扇形
+                    for (var i = 1; i <= 8; i++) {
+                        cobj.beginPath();
+                        cobj.moveTo(0, 0);
+                        cobj.fillStyle = colorArr[i - 1];
+                        cobj.arc(0, 0, 130, (i - 1) * 45 * num, i * 45 * num);
+                        cobj.closePath();
+                        cobj.stroke();
+                        cobj.fill();
+                    }
+
+                    //白的圆盘
+                    cobj.beginPath();
+                    cobj.fillStyle = "#fff";
+                    cobj.arc(0, 0, 60, 0, 2 * Math.PI);
+                    cobj.fill();
+
+                    //添加文字
+                    for (var i = 0; i < 8; i++) {
+                        cobj.save();
+                        cobj.beginPath();
+                        cobj.rotate((i * 45 + 20) * num);
+                        cobj.fillStyle = "#222";
+                        cobj.font = "15px 微软雅黑";
+                        cobj.fillText(textArr[i], 75, 0);
+                        cobj.restore();
+                    }
+                    cobj.restore();
+                }
+            }, 60)
+
+
+        }
+    </script>
+</head>
+<body>
+<canvas id="canvas" width=500 height=500>
+</canvas>
+<input type="button" value="开始" id="btn"/>
+</body>
+</html>
+

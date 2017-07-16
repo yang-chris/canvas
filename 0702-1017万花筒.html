@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>时钟</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+<audio src="1.wav" id="audio"></audio>
+<script>
+    var canvas = document.getElementById('canvas');
+    var audio = document.getElementById('audio');
+    var cObj = canvas.getContext('2d');
+    var originX = 300;
+    var originY = 300;
+    var radius = 200;
+    cObj.rect(100, 100, 100, 100);
+    cObj.fill();
+    var num = 0;
+    canvas.onclick = function (e) {
+        var mx = e.pageX;
+        var my = e.pageY;
+        num++;
+        if (cObj.isPointInPath(mx, my)) {
+            setInterval(function () {
+                cObj.clearRect(0,0,800,800);
+                num++;
+                cObj.save();
+                cObj.translate(100,100);
+                cObj.scale(Math.sin(num * Math.PI / 180), Math.sin(num * Math.PI / 180));
+                cObj.rotate(num * Math.PI / 180);
+                cObj.beginPath();
+                cObj.rect(0, 0, 100, 100);
+                cObj.fill();
+                cObj.restore();
+            }, 100)
+        }
+    }
+
+
+</script>
+</body>
+</html>

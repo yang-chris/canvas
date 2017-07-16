@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>时钟</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+<audio src="1.wav" id="audio"></audio>
+<script>
+    var canvas = document.getElementById('canvas');
+    var audio=document.getElementById('audio');
+    var cObj = canvas.getContext('2d');
+    var originX = 300;
+    var originY = 300;
+    var radius = 200;
+
+    audio.ontimeupdate=function () {
+        if(audio.currentTime>=0.01){
+            audio.pause();
+        }
+    };
+    setInterval(function () {
+        cObj.clearRect(0,0,800,800);
+        audio.currentTime=0;
+        audio.play();
+        //阴影
+        cObj.shadowColor = '#888';
+        cObj.shadowOffsetX = 2;
+        cObj.shadowOffsetY = 2;
+        cObj.shadowBlur = 3;
+
+        //渐变
+        var colorRange = cObj.createRadialGradient(originX, originY, 1, originX, originY, 200);
+        colorRange.addColorStop(0, '#efefef');
+        colorRange.addColorStop(1, '#cecece');
+        cObj.fillStyle = colorRange;
+        cObj.beginPath();
+        cObj.lineWidth=2;
+        cObj.arc(originX, originY, radius, 0, 2 * Math.PI);
+        cObj.fill();
+
+        //阴影
+        cObj.shadowColor = '#888';
+        cObj.shadowOffsetX = 0;
+        cObj.shadowOffsetY = 0;
+        cObj.shadowBlur = 0;
+        drawMark();     //画刻度
+        var date=new Date();
+        var ha=date.getHours()*30+(date.getMinutes()*6/12)-90;
+        var ma=date.getMinutes()*6-90;
+        var sa=date.getSeconds()*6-90;
+        drawPointer(100,ha,4,'#000');   //时针
+        drawPointer(150,ma,3,'#888');   //分针
+        drawPointer(180,sa,2,'#ff0000');//秒针
+
+
+
+        //小圆
+        cObj.fill();
+        cObj.fillStyle='#888';
+        cObj.beginPath();
+        cObj.arc(originX,originY,5,0,2*Math.PI);
+        cObj.stroke();
+    },1000);
+
+
+
+
+
+
+    //画针的函数
+    function drawPointer(radius,angle,width,color) {
+        cObj.beginPath();
+        cObj.lineWidth=width;
+        cObj.strokeStyle=color;
+        cObj.moveTo(originX,originY);
+        cObj.lineTo(originX+radius*Math.cos(angle*Math.PI/180),originY+radius*Math.sin(angle*Math.PI/180));
+        cObj.stroke();
+    }
+
+
+
+    //刻度函数
+    function drawMark() {
+        for (var i = 0; i < 60; i++) {
+            var angle = i * 6 * Math.PI / 180;
+            var radius1 = radius - 10;
+            var linWidth = 4;
+            if (i % 5 === 0) {
+                radius1 = radius-20;
+                linWidth = 8;
+            }
+            cObj.strokeStyle = '#888';
+            cObj.lineWidth = linWidth;
+            cObj.beginPath();
+            cObj.moveTo(originX + radius * Math.cos(angle), originY + radius * Math.sin(angle));
+            cObj.lineTo(originX + radius1 * Math.cos(angle), originY + radius1 * Math.sin(angle));
+            cObj.stroke();
+        }
+    }
+</script>
+</body>
+</html>

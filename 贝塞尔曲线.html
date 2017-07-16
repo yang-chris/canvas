@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>贝塞尔曲线</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        canvas{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800px" height="600px"></canvas>
+<script>
+    var winW=document.body.clientWidth||document.documentElement.clientWidth;
+    var winH=document.body.clientHeight||document.documentElement.clientHeight;
+    var canvas=document.getElementById('canvas');
+    canvas.setAttribute('width',winW);
+    canvas.setAttribute('height',winH);
+    var cObj=canvas.getContext('2d');
+//    cObj.moveTo(0,200);
+    //cObj.quadraticCurveTo(800,500,100,100);   二次曲线
+    /*cObj.bezierCurveTo(800,200,300,100,600,300)
+    cObj.stroke();*/
+    canvas.onmousedown=function (e) {
+        var startX=e.pageX;
+        var startY=e.pageY;
+        cObj.moveTo(startX,startY)
+        canvas.onmouseup=function (e) {
+            var endX=e.pageX;
+            var endY=e.pageY;
+            canvas.onmousemove=function (e) {
+                cObj.clearRect(0,0,winW,winH);
+                var moveX=e.pageX;
+                var moveY=e.pageY;
+                cObj.beginPath();
+                cObj.moveTo(startX,startY);
+                cObj.quadraticCurveTo(moveX,moveY,endX,endY);
+                cObj.stroke();
+            }
+
+        }
+    }
+</script>
+</body>
+</html>

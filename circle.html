@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>贝塞尔曲线</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        canvas{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800px" height="600px"></canvas>
+<script>
+    var winW=document.body.clientWidth||document.documentElement.clientWidth;
+    var winH=document.body.clientHeight||document.documentElement.clientHeight;
+    var canvas=document.getElementById('canvas');
+    canvas.setAttribute('width',winW);
+    canvas.setAttribute('height',winH);
+    var cObj=canvas.getContext('2d');
+    cObj.arc(650,300,100,0,2*Math.PI);
+    cObj.lineWidth=2;
+    cObj.strokeStyle='rgba(0,0,0)';
+    cObj.stroke();
+    var angle=0;
+    canvas.onclick=function (e) {
+        var mx=e.pageX,my=e.pageY;
+        if(cObj.isPointInPath(mx,my)){
+            setInterval(function () {
+                cObj.clearRect(0,0,winW,winH);
+                angle+=0.2;
+                cObj.beginPath();
+                cObj.arc(650,300,100+30*Math.sin(angle),0,2*Math.PI)
+                cObj.stroke()
+            },100)
+        }
+    }
+
+</script>
+</body>
+</html>

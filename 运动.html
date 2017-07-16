@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        canvas{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800px" height="600px"></canvas>
+<script>
+    var winW=document.body.clientWidth;
+    var winH=document.body.clientHeight;
+    var canvas=document.getElementById('canvas');
+    canvas.setAttribute('width',winW);
+    canvas.setAttribute('height',winH);
+    var cObj=canvas.getContext('2d');
+
+    var num=0;
+    setInterval(function () {
+        cObj.clearRect(0,0,winW,winH);
+        num+=10;
+        cObj.save();
+        cObj.translate(num,0);
+        cObj.rotate(num*Math.PI/180);
+        cObj.fillRect(0,200,100,100);
+        cObj.restore();
+    },100)
+</script>
+</body>
+</html>

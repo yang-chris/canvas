@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        canvas{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800px" height="600px"></canvas>
+<script>
+    var winW=document.body.clientWidth;
+    var winH=document.body.clientHeight;
+    var canvas=document.getElementById('canvas');
+    canvas.setAttribute('width',winW);
+    canvas.setAttribute('height',winH);
+    var cObj=canvas.getContext('2d');
+    canvas.onmousedown=function (e) {
+        var startX=e.pageX;
+        var startY=e.pageY;
+        cObj.moveTo(startX,startY);
+        canvas.onmousemove=function (e) {
+            var moveX=e.pageX;
+            var moveY=e.pageY;
+            cObj.lineTo(moveX,moveY);
+            cObj.stroke();
+        }
+        canvas.onmouseup=function () {
+            canvas.onmousemove=null;
+            canvas.onmouseup=null
+        }
+    }
+</script>
+</body>
+</html>

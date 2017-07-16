@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>万花筒</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+<script>
+    var canvas = document.getElementById('canvas');
+    var cObj = canvas.getContext('2d');
+    var arr = [];
+    var t = setInterval(function () {
+        cObj.clearRect(0, 0, 800, 800);
+        for (var i = 0; i < arr.length; i++) {
+            cObj.save();
+            cObj.translate(300, 300);
+            cObj.scale(arr[i].scales, arr[i].scales);
+            cObj.rotate(arr[i].angle * Math.PI / 180);
+            cObj.fillStyle = arr[i].color;
+            cObj.fillRect(arr[i].num, arr[i].num, 40,40);
+            cObj.restore();
+        }
+    }, 100);
+    setInterval(function () {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].num <= 0) {
+                arr.splice(i, 1);
+                continue;
+            }
+            arr[i].angle += 2;
+            arr[i].num -= 0.1;
+            arr[i].scales -= 0.001;
+            if (arr[i].scales <= 0.2) {
+                arr[i].scales = 0.2;
+            }
+        }
+    }, 100);
+    setInterval(function () {//设置随机产生矩形
+        var rect = {
+            angle: 0,
+            num: 150,
+            scales: 1,
+            color: 'rgb(' + parseInt(Math.random() * 256) + ',' + parseInt(Math.random() * 256) + ',' + parseInt(Math.random() * 256) + ')'
+        };
+        arr.push(rect);
+    }, 1000)
+
+</script>
+</body>
+</html>
