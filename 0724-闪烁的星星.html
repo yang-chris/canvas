@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            background: #ccc;
+        }
+
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800px" height="600px"></canvas>
+<img src="images/1.jpg" hidden alt="">
+
+<script>
+    var canvas = document.getElementById('canvas');
+    var cObj = canvas.getContext('2d');
+
+    //
+    function drawStar(x, y, radius1, radius2, num, drawType, color) {
+        var angle = 360 / (num / 2);
+        var arr = [];
+        for (var i = 0; i < num * 2; i++) {
+            var starObj = {};
+            if (i % 2 == 0) {
+                starObj.x = x + radius1 * Math.cos(i * angle * Math.PI / 180);
+                starObj.y = x + radius1 * Math.sin(i * angle * Math.PI / 180);
+            } else {
+                starObj.x = x + radius2 * Math.cos(i * angle * Math.PI / 180);
+                starObj.y = x + radius2 * Math.sin(i * angle * Math.PI / 180);
+            }
+            arr.push(starObj);
+        }
+        cObj.beginPath();
+        cObj.fillStyle=color;
+        cObj.strokeStyle=color;
+        cObj.moveTo(arr[0].x, arr[0].y);
+        for (var i = 1; i < arr.length; i++) {
+            cObj.lineTo(arr[i].x, arr[i].y)
+        }
+        cObj.closePath();
+        if (drawType == 'fill') {
+            cObj.fill();
+        } else {
+            cObj.stroke();
+        }
+    }
+    //drawStar(100,100,50,20,8,'fill','red');
+    var angle=0;
+    setInterval(function () {
+        angle+=2;
+        cObj.clearRect(0,0,800,800);
+        cObj.save();
+        cObj.beginPath();
+        cObj.translate(100,100);
+        cObj.rotate(angle*Math.PI/180);
+        //cObj.scale(Math.sin(angle*Math.PI/180),Math.sin(angle*Math.PI/180));
+        cObj.globalAlpha=Math.abs(Math.sin(angle*Math.PI/180));
+        drawStar(0,0,10,6,5,'fill','yellow');
+        cObj.restore();
+    },60)
+
+
+</script>
+</body>
+</html>
