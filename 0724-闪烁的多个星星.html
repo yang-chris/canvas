@@ -26,16 +26,16 @@
 
     //
     function drawStar(x, y, radius1, radius2, num, drawType, color) {
-        var angle = 360 / (num / 2);
+        var angle = 360 / (num * 2);
         var arr = [];
         for (var i = 0; i < num * 2; i++) {
             var starObj = {};
             if (i % 2 == 0) {
                 starObj.x = x + radius1 * Math.cos(i * angle * Math.PI / 180);
-                starObj.y = x + radius1 * Math.sin(i * angle * Math.PI / 180);
+                starObj.y = y + radius1 * Math.sin(i * angle * Math.PI / 180);
             } else {
                 starObj.x = x + radius2 * Math.cos(i * angle * Math.PI / 180);
-                starObj.y = x + radius2 * Math.sin(i * angle * Math.PI / 180);
+                starObj.y = y + radius2 * Math.sin(i * angle * Math.PI / 180);
             }
             arr.push(starObj);
         }
@@ -66,7 +66,7 @@
             num:Math.ceil(4+4*Math.random()),
             color:'rgb('+parseInt(255*Math.random())+','+parseInt(255*Math.random())+','+parseInt(255*Math.random())+')',
             angle:360*Math.random(),
-            changeAngle:-5*10*Math.random()
+            changeAngle:-5+10*Math.random()
         };
         starArr.push(starObj)
     }
@@ -84,7 +84,7 @@
             drawStar(0,0,starArr[i].radius1,starArr[i].radius2,starArr[i].num,'fill',starArr[i].color);
             cObj.restore();
         }
-    },200);
+    },60);
 
 
 </script>
